@@ -1,0 +1,219 @@
+"use client";
+
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CalendarIcon, MapPinIcon, NavigationIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { HeroInput } from "@/components/ui/custom/hero-input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+
+const formSchema = z.object({
+  origin: z.string(),
+  destination: z.string(),
+  departureDate: z.date(),
+  returnDate: z.date(),
+});
+
+export const HeroForm = () => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      origin: "",
+      destination: "",
+      departureDate: undefined,
+      returnDate: undefined,
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log({ values });
+  };
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full flex flex-col gap-9"
+      >
+        <div className="w-full flex flex-col gap-4">
+          <div className="w-full border border-border rounded-2xl">
+            <FormField
+              control={form.control}
+              name="origin"
+              render={({ field }) => (
+                <FormItem className="px-3.5 pb-3 pt-2 group">
+                  <FormLabel className="text-foreground/50 font-regular text-sm transition group-focus-within:text-primary">
+                    Origem
+                  </FormLabel>
+
+                  <FormControl>
+                    <HeroInput
+                      placeholder="De onde você vai sair?"
+                      icon={MapPinIcon}
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="w-full bg-muted h-px" />
+
+            <FormField
+              control={form.control}
+              name="destination"
+              render={({ field }) => (
+                <FormItem className="px-3.5 pb-3 pt-2 group">
+                  <FormLabel className="text-foreground/50 font-regular text-sm transition group-focus-within:text-primary">
+                    Destino
+                  </FormLabel>
+
+                  <FormControl>
+                    <HeroInput
+                      placeholder="Para onde você vai?"
+                      icon={NavigationIcon}
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="w-full border border-border rounded-2xl flex gap-2">
+            <FormField
+              control={form.control}
+              name="departureDate"
+              render={({ field }) => (
+                <FormItem className="px-3.5 pb-3 pt-2 group">
+                  <FormLabel className="text-foreground/50 font-regular text-sm transition group-focus-within:text-primary">
+                    Ida
+                  </FormLabel>
+
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full !p-0 text-left font-normal justify-start bg-transparent border-0 rounded-none shadow-none",
+                            !field.value && "text-muted-foreground",
+                          )}
+                        >
+                          <CalendarIcon
+                            size={20}
+                            strokeWidth={1.5}
+                            className="text-primary"
+                          />
+
+                          {field.value ? (
+                            format(field.value, "dd/MM/yyyy")
+                          ) : (
+                            <span>__/__/____</span>
+                          )}
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="w-px bg-border" />
+
+            <FormField
+              control={form.control}
+              name="returnDate"
+              render={({ field }) => (
+                <FormItem className="px-3.5 pb-3 pt-2 group">
+                  <FormLabel className="text-foreground/50 font-regular text-sm transition group-focus-within:text-primary">
+                    Volta
+                  </FormLabel>
+
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full !p-0 text-left font-normal justify-start bg-transparent border-0 rounded-none shadow-none",
+                            !field.value && "text-muted-foreground",
+                          )}
+                        >
+                          <CalendarIcon
+                            size={20}
+                            strokeWidth={1.5}
+                            className="text-primary"
+                          />
+
+                          {field.value ? (
+                            format(field.value, "dd/MM/yyyy")
+                          ) : (
+                            <span>__/__/____</span>
+                          )}
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <Button size="lg" className="text-lg">
+          Buscar
+        </Button>
+      </form>
+    </Form>
+  );
+};
