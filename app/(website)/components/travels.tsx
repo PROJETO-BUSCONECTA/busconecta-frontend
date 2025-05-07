@@ -1,8 +1,12 @@
-import { Button } from "@/components/ui/button";
 import { MoveRightIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { TravelItem } from "./travel/travel-item";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 
 export const Travels = () => {
   return (
@@ -13,7 +17,8 @@ export const Travels = () => {
             <h2 className="text-4xl font-semibold">Viaje mais, pague menos</h2>
 
             <p className="text-base font-medium text-foreground/70">
-              Veja nossas ofertas exclusivas e garanta sua próxima viagem por menos.
+              Veja nossas ofertas exclusivas e garanta sua próxima viagem por
+              menos.
             </p>
           </div>
 

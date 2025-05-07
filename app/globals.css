@@ -118,3 +118,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+.input-container {
+  @apply w-full border border-foreground/20 rounded-full transition-colors focus-within:border-primary px-4 py-1;
+}
+
+.input-reset {
+  @apply border-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none p-0 text-base;
+}
+
+.input-error {
+  @apply !border-destructive focus-within:!border-primary;
+}

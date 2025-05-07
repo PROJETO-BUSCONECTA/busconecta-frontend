@@ -1,17 +1,34 @@
 "use client";
 
 import { z } from "zod";
+import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowUpDownIcon, CalendarIcon, MapPinIcon, NavigationIcon } from "lucide-react";
+import {
+  ArrowUpDownIcon,
+  CalendarIcon,
+  MapPinIcon,
+  NavigationIcon,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { HeroInput } from "@/components/ui/custom/hero-input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
+import { HeroInput } from "@/components/ui/custom/hero-input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   origin: z.string(),
@@ -37,7 +54,10 @@ export const HeroForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col gap-9">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full flex flex-col gap-9"
+      >
         <div className="w-full flex flex-col gap-4">
           <div className="w-full border border-border rounded-2xl">
             <FormField
@@ -50,7 +70,11 @@ export const HeroForm = () => {
                   </FormLabel>
 
                   <FormControl>
-                    <HeroInput placeholder="De onde você vai sair?" icon={MapPinIcon} {...field} />
+                    <HeroInput
+                      placeholder="De onde você vai sair?"
+                      icon={MapPinIcon}
+                      {...field}
+                    />
                   </FormControl>
 
                   <FormMessage />
@@ -61,7 +85,11 @@ export const HeroForm = () => {
             <div className="w-full relative">
               <div className="w-full bg-border h-px" />
 
-              <Button type="button" size="icon" className="absolute top-1/2 right-10 -translate-y-1/2">
+              <Button
+                type="button"
+                size="icon"
+                className="absolute top-1/2 right-10 -translate-y-1/2"
+              >
                 <ArrowUpDownIcon size={20} strokeWidth={1.5} color="white" />
               </Button>
             </div>
@@ -76,7 +104,11 @@ export const HeroForm = () => {
                   </FormLabel>
 
                   <FormControl>
-                    <HeroInput placeholder="Para onde você vai?" icon={NavigationIcon} {...field} />
+                    <HeroInput
+                      placeholder="Para onde você vai?"
+                      icon={NavigationIcon}
+                      {...field}
+                    />
                   </FormControl>
 
                   <FormMessage />
@@ -102,12 +134,20 @@ export const HeroForm = () => {
                           variant="outline"
                           className={cn(
                             "w-full !p-0 text-left font-normal justify-start bg-transparent border-0 rounded-none shadow-none",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
-                          <CalendarIcon size={20} strokeWidth={1.5} className="text-primary" />
+                          <CalendarIcon
+                            size={20}
+                            strokeWidth={1.5}
+                            className="text-primary"
+                          />
 
-                          {field.value ? format(field.value, "dd/MM/yyyy") : <span>__/__/____</span>}
+                          {field.value ? (
+                            format(field.value, "dd/MM/yyyy")
+                          ) : (
+                            <span>__/__/____</span>
+                          )}
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -117,7 +157,9 @@ export const HeroForm = () => {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
                         initialFocus
                       />
                     </PopoverContent>
@@ -146,12 +188,20 @@ export const HeroForm = () => {
                           variant="outline"
                           className={cn(
                             "w-full !p-0 text-left font-normal justify-start bg-transparent border-0 rounded-none shadow-none",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
-                          <CalendarIcon size={20} strokeWidth={1.5} className="text-primary" />
+                          <CalendarIcon
+                            size={20}
+                            strokeWidth={1.5}
+                            className="text-primary"
+                          />
 
-                          {field.value ? format(field.value, "dd/MM/yyyy") : <span>__/__/____</span>}
+                          {field.value ? (
+                            format(field.value, "dd/MM/yyyy")
+                          ) : (
+                            <span>__/__/____</span>
+                          )}
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -161,7 +211,9 @@ export const HeroForm = () => {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
                         initialFocus
                       />
                     </PopoverContent>

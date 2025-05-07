@@ -1,9 +1,9 @@
 import { FAQ } from "./components/faq";
 import { Hero } from "./components/hero";
 import { About } from "./components/about";
-import { Footer } from "./components/footer";
 import { Travels } from "./components/travels";
 import { Header } from "@/components/global/header";
+import { Footer } from "../../components/global/footer";
 
 const Home = () => {
   return (

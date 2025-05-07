@@ -1,15 +1,24 @@
 import Image from "next/image";
+import { ArrowRightIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRightIcon } from "lucide-react";
 
 export const TravelItem = () => {
   return (
     <div className="w-full rounded-3xl shadow-lg overflow-hidden group">
       <div className="w-full h-80 relative">
-        <Image src="/images/home/travel-example.png" alt="Viagem" fill className="object-cover object-center" />
+        <Image
+          src="/images/home/travel-example.png"
+          alt="Viagem"
+          fill
+          className="object-cover object-center"
+        />
 
-        <Button size="lg" variant="secondary" className="absolute left-4 bottom-4 opacity-0 group-hover:opacity-100">
+        <Button
+          size="lg"
+          variant="secondary"
+          className="absolute left-4 bottom-4 opacity-0 group-hover:opacity-100"
+        >
           Conferir oferta
           <ArrowRightIcon />
         </Button>
@@ -21,7 +30,9 @@ export const TravelItem = () => {
             <div className="flex items-center gap-2">
               <div className="size-4 border border-primary rounded-full" />
 
-              <span className="text-sm font-medium text-primary">São Paulo, SP - Tiete</span>
+              <span className="text-sm font-medium text-primary">
+                São Paulo, SP - Tiete
+              </span>
             </div>
 
             <div className="w-px h-5 bg-primary ml-[7px]" />
@@ -31,7 +42,9 @@ export const TravelItem = () => {
                 <div className="size-full bg-primary rounded-full" />
               </div>
 
-              <span className="text-sm font-medium text-primary">São Paulo, SP - Tiete</span>
+              <span className="text-sm font-medium text-primary">
+                São Paulo, SP - Tiete
+              </span>
             </div>
           </div>
         </div>
