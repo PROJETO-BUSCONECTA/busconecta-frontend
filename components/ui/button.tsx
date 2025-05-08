@@ -21,12 +21,15 @@ const buttonVariants = cva(
         "input-ghost":
           "text-foreground/30 hover:text-primary dark:hover:text-primary",
         link: "text-primary underline-offset-4 hover:underline",
+        input:
+          "border border-foreground/20 rounded-full transition-colors hover:border-primary",
         header: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-12 px-5 py-3",
+        input: "h-[46px] px-4 py-1",
         icon: "size-9",
       },
     },
