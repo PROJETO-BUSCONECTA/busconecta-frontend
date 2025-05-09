@@ -52,7 +52,7 @@ export const TravelFilter = () => {
   };
 
   return (
-    <div className="w-full bg-white shadow-md rounded-2xl px-5 py-4">
+    <div className="w-full bg-white shadow-md rounded-2xl px-5 py-4 mb-16">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
