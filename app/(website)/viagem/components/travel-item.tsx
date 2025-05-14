@@ -1,0 +1,65 @@
+import { Button } from "@/components/ui/button";
+import { formatPrice } from "@/lib/utils";
+import Image from "next/image";
+
+interface TravelItemProps {
+  imageSrc: string;
+  startTime: string;
+  endTime: string;
+  duration: string;
+  origin: string;
+  destination: string;
+  seatType: string;
+  price: number;
+}
+
+export const TravelItem = ({
+  imageSrc,
+  startTime,
+  endTime,
+  duration,
+  origin,
+  destination,
+  seatType,
+  price,
+}: TravelItemProps) => {
+  return (
+    <div className="w-full bg-white rounded-2xl shadow-md p-6 flex flex-col gap-6">
+      <div className="w-full flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="w-full flex items-center justify-around">
+          <div className="w-[139px] h-[25px] relative">
+            <Image src={imageSrc} alt="Logo da companhia" fill className="object-contain object-center" />
+          </div>
+
+          <div className="h-10 w-px bg-foreground/25" />
+
+          <div className="flex flex-col items-center">
+            <span className="text-base font-bold text-foreground">
+              {startTime} - {endTime}
+            </span>
+
+            <span className="text-xs font-normal text-foreground/70">{duration}</span>
+          </div>
+        </div>
+
+        <div className="w-full flex flex-col items-center">
+          <span className="text-sm font-normal text-foreground/70">{origin}</span>
+
+          <span className="text-sm font-normal text-foreground/70">{destination}</span>
+        </div>
+
+        <span className="text-sm font-normal text-foreground/70 mx-auto sm:mx-0 sm:break-keep">{seatType}</span>
+      </div>
+
+      <div className="w-full flex flex-col items-center gap-4 sm:flex-row justify-between sm:gap-6">
+        <span className="text-3xl font-semibold text-foreground">{formatPrice(price / 100)}</span>
+
+        <div className="hidden sm:block flex-1 h-px bg-foreground/35" />
+
+        <Button size="lg" className="w-full sm:w-fit">
+          Selecionar
+        </Button>
+      </div>
+    </div>
+  );
+};

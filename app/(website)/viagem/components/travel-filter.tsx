@@ -1,226 +1,256 @@
-"use client";
-
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  CalendarIcon,
-  MapPinIcon,
-  NavigationIcon,
-  SearchIcon,
-} from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
 
-const formSchema = z.object({
-  origin: z.string(),
-  destination: z.string(),
-  departureDate: z.date(),
-  returnDate: z.date(),
-});
+interface TravelFilterProps {
+  show?: boolean;
+}
 
-export const TravelFilter = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      origin: "",
-      destination: "",
-      departureDate: undefined,
-      returnDate: undefined,
-    },
-  });
-
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log({ values });
-  };
-
+export const TravelFilter = ({ show }: TravelFilterProps) => {
   return (
-    <div className="w-full bg-white shadow-md rounded-2xl px-5 py-4 mb-16">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full flex flex-col gap-12 lg:flex-row lg:items-end"
-        >
-          <div className="w-full grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            <FormField
-              control={form.control}
-              name="origin"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">Origem</FormLabel>
+    <div
+      className={cn(
+        "w-72 bg-white rounded-2xl p-5 hidden shadow-md lg:flex flex-col gap-6",
+        show && "flex h-72 p-5 overflow-y-auto"
+      )}
+    >
+      <div className="w-full flex flex-col gap-4">
+        <h3 className="text-xl text-primary font-medium">Hora da Saída</h3>
 
-                  <FormControl>
-                    <div
-                      className={cn("input-container flex items-center gap-2", {
-                        "input-error": !!form.formState.errors.origin?.message,
-                      })}
-                    >
-                      <MapPinIcon
-                        size={20}
-                        strokeWidth={1.5}
-                        className="text-primary"
-                      />
+        <div className="flex flex-col gap-3">
+          <div className="flex gap-2">
+            <Checkbox id="morning" />
 
-                      <Input
-                        className="input-reset"
-                        placeholder="De onde você vai sair?"
-                        {...field}
-                      />
-                    </div>
-                  </FormControl>
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="morning" className="text-base font-normal text-foreground leading-none">
+                Manhã
+              </Label>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="destination"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">Destino</FormLabel>
-
-                  <FormControl>
-                    <div
-                      className={cn("input-container flex items-center gap-2", {
-                        "input-error":
-                          !!form.formState.errors.destination?.message,
-                      })}
-                    >
-                      <NavigationIcon
-                        size={20}
-                        strokeWidth={1.5}
-                        className="text-primary"
-                      />
-
-                      <Input
-                        className="input-reset"
-                        placeholder="Para onde você vai?"
-                        {...field}
-                      />
-                    </div>
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="departureDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">Ida</FormLabel>
-
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="input"
-                          size="input"
-                          className={cn(
-                            "text-left font-normal justify-start",
-                            !field.value && "text-muted-foreground",
-                          )}
-                        >
-                          <CalendarIcon
-                            size={20}
-                            strokeWidth={1.5}
-                            className="text-primary"
-                          />
-
-                          {field.value ? (
-                            format(field.value, "dd/MM/yyyy")
-                          ) : (
-                            <span>__/__/____</span>
-                          )}
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="returnDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">Volta</FormLabel>
-
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="input"
-                          size="input"
-                          className={cn(
-                            "text-left font-normal justify-start",
-                            !field.value && "text-muted-foreground",
-                          )}
-                        >
-                          <CalendarIcon
-                            size={20}
-                            strokeWidth={1.5}
-                            className="text-primary"
-                          />
-
-                          {field.value ? (
-                            format(field.value, "dd/MM/yyyy")
-                          ) : (
-                            <span>__/__/____</span>
-                          )}
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                  </Popover>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <span className="text-sm font-normal text-foreground/70">(06:00 - 11:59)</span>
+            </div>
           </div>
 
-          <Button type="submit" size="lg" className="w-full lg:w-fit">
-            Buscar
-            <SearchIcon />
-          </Button>
-        </form>
-      </Form>
+          <div className="flex gap-2">
+            <Checkbox id="afternoon" />
+
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="afternoon" className="text-base font-normal text-foreground leading-none">
+                Tarde
+              </Label>
+
+              <span className="text-sm font-normal text-foreground/70">(12:00 - 17:59)</span>
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="night" />
+
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="night" className="text-base font-normal text-foreground leading-none">
+                Noite
+              </Label>
+
+              <span className="text-sm font-normal text-foreground/70">(18:00 - 23:59)</span>
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="dawn" />
+
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="dawn" className="text-base font-normal text-foreground leading-none">
+                Madrugada
+              </Label>
+
+              <span className="text-sm font-normal text-foreground/70">(00:00 - 05:59)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full flex flex-col gap-4">
+        <h3 className="text-xl text-primary font-medium">Tipo de Assento</h3>
+
+        <div className="flex flex-col gap-3">
+          <div className="flex gap-2">
+            <Checkbox id="conventional" />
+
+            <Label htmlFor="conventional" className="text-base font-normal text-foreground leading-none">
+              Convencional
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="executive" />
+
+            <Label htmlFor="executive" className="text-base font-normal text-foreground leading-none">
+              Executivo
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="semi-bed" />
+
+            <Label htmlFor="semi-bed" className="text-base font-normal text-foreground leading-none">
+              Semi-leito
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="layer" />
+
+            <Label htmlFor="layer" className="text-base font-normal text-foreground leading-none">
+              Leito
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="bed" />
+
+            <Label htmlFor="bed" className="text-base font-normal text-foreground leading-none">
+              Cama
+            </Label>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full flex flex-col gap-4">
+        <h3 className="text-xl text-primary font-medium">Origem</h3>
+
+        <div className="flex flex-col gap-3">
+          <div className="flex gap-2">
+            <Checkbox id="origin-1" />
+
+            <Label htmlFor="origin-1" className="text-base font-normal text-foreground leading-none">
+              Rio de Janeiro, RJ - Rodov. do Rio
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="origin-2" />
+
+            <Label htmlFor="origin-2" className="text-base font-normal text-foreground leading-none">
+              Rio de Janeiro, RJ - Campo Grande
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="origin-3" />
+
+            <Label htmlFor="origin-3" className="text-base font-normal text-foreground leading-none">
+              Rio de Janeiro, RJ - Barra da Tijuca - Parque das Rosas
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="origin-4" />
+
+            <Label htmlFor="origin-4" className="text-base font-normal text-foreground leading-none">
+              Rio de Janeiro, RJ - Barra da Tijuca - Shopping Uptown
+            </Label>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full flex flex-col gap-4">
+        <h3 className="text-xl text-primary font-medium">Destino</h3>
+
+        <div className="flex flex-col gap-3">
+          <div className="flex gap-2">
+            <Checkbox id="destination-1" />
+
+            <Label htmlFor="destination-1" className="text-base font-normal text-foreground leading-none">
+              São Paulo, SP - Tiete
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="destination-2" />
+
+            <Label htmlFor="destination-2" className="text-base font-normal text-foreground leading-none">
+              São Paulo, SP - Barra Funda
+            </Label>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full flex flex-col gap-4">
+        <h3 className="text-xl text-primary font-medium">Companhia</h3>
+
+        <div className="flex flex-col gap-3">
+          <div className="flex gap-2">
+            <Checkbox id="company-1" />
+
+            <Label htmlFor="company-1" className="text-base font-normal text-foreground leading-none">
+              Aguia Branca
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="company-2" />
+
+            <Label htmlFor="company-2" className="text-base font-normal text-foreground leading-none">
+              Rio Doce
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="company-3" />
+
+            <Label htmlFor="company-3" className="text-base font-normal text-foreground leading-none">
+              Expresso Do Sul
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="company-4" />
+
+            <Label htmlFor="company-4" className="text-base font-normal text-foreground leading-none">
+              1001
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="company-5" />
+
+            <Label htmlFor="company-5" className="text-base font-normal text-foreground leading-none">
+              Catarinense
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="company-6" />
+
+            <Label htmlFor="company-6" className="text-base font-normal text-foreground leading-none">
+              Águia Flex
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="company-7" />
+
+            <Label htmlFor="company-7" className="text-base font-normal text-foreground leading-none">
+              Itapemirim
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="company-8" />
+
+            <Label htmlFor="company-8" className="text-base font-normal text-foreground leading-none">
+              Wemobi
+            </Label>
+          </div>
+
+          <div className="flex gap-2">
+            <Checkbox id="company-9" />
+
+            <Label htmlFor="company-9" className="text-base font-normal text-foreground leading-none">
+              Expresso Adamantina
+            </Label>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
