@@ -1,3 +1,6 @@
+import { ChevronDownIcon, FilterIcon } from "lucide-react";
+
+import { TravelFilter } from "./travel-filter";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -5,24 +8,37 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDownIcon, FilterIcon } from "lucide-react";
-import { TravelFilter } from "./travel-filter";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export const StatsAndFilter = () => {
   return (
     <div className="w-full flex items-center justify-between gap-6">
       <div className="flex items-center gap-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+        <Sheet>
+          <SheetTrigger asChild>
             <Button size="icon" variant="ghost" className="lg:hidden">
-              <FilterIcon size={20} strokeWidth={1.5} className="text-primary" />
+              <FilterIcon
+                size={20}
+                strokeWidth={1.5}
+                className="text-primary"
+              />
             </Button>
-          </DropdownMenuTrigger>
+          </SheetTrigger>
 
-          <DropdownMenuContent className="p-0" align="start">
+          <SheetContent className="bg-white" side="left">
+            <SheetHeader>
+              <SheetTitle>Filtro</SheetTitle>
+            </SheetHeader>
+
             <TravelFilter show />
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </SheetContent>
+        </Sheet>
 
         <span className="text-sm">130 Resultados</span>
       </div>

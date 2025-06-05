@@ -1,17 +1,34 @@
 "use client";
 
 import { z } from "zod";
+import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  CalendarIcon,
+  MapPinIcon,
+  NavigationIcon,
+  SearchIcon,
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { CalendarIcon, MapPinIcon, NavigationIcon, SearchIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   origin: z.string(),
@@ -38,7 +55,10 @@ export const TravelForm = () => {
   return (
     <div className="w-full bg-white shadow-md rounded-2xl px-5 py-4 mb-16">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col gap-12 lg:flex-row lg:items-end">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full flex flex-col gap-12 lg:flex-row lg:items-end"
+        >
           <div className="w-full grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <FormField
               control={form.control}
@@ -53,9 +73,17 @@ export const TravelForm = () => {
                         "input-error": !!form.formState.errors.origin?.message,
                       })}
                     >
-                      <MapPinIcon size={20} strokeWidth={1.5} className="text-primary" />
+                      <MapPinIcon
+                        size={20}
+                        strokeWidth={1.5}
+                        className="text-primary"
+                      />
 
-                      <Input className="input-reset" placeholder="De onde você vai sair?" {...field} />
+                      <Input
+                        className="input-reset"
+                        placeholder="De onde você vai sair?"
+                        {...field}
+                      />
                     </div>
                   </FormControl>
 
@@ -74,12 +102,21 @@ export const TravelForm = () => {
                   <FormControl>
                     <div
                       className={cn("input-container flex items-center gap-2", {
-                        "input-error": !!form.formState.errors.destination?.message,
+                        "input-error":
+                          !!form.formState.errors.destination?.message,
                       })}
                     >
-                      <NavigationIcon size={20} strokeWidth={1.5} className="text-primary" />
+                      <NavigationIcon
+                        size={20}
+                        strokeWidth={1.5}
+                        className="text-primary"
+                      />
 
-                      <Input className="input-reset" placeholder="Para onde você vai?" {...field} />
+                      <Input
+                        className="input-reset"
+                        placeholder="Para onde você vai?"
+                        {...field}
+                      />
                     </div>
                   </FormControl>
 
@@ -101,11 +138,22 @@ export const TravelForm = () => {
                         <Button
                           variant="input"
                           size="input"
-                          className={cn("text-left font-normal justify-start", !field.value && "text-muted-foreground")}
+                          className={cn(
+                            "text-left font-normal justify-start",
+                            !field.value && "text-muted-foreground",
+                          )}
                         >
-                          <CalendarIcon size={20} strokeWidth={1.5} className="text-primary" />
+                          <CalendarIcon
+                            size={20}
+                            strokeWidth={1.5}
+                            className="text-primary"
+                          />
 
-                          {field.value ? format(field.value, "dd/MM/yyyy") : <span>__/__/____</span>}
+                          {field.value ? (
+                            format(field.value, "dd/MM/yyyy")
+                          ) : (
+                            <span>__/__/____</span>
+                          )}
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -115,7 +163,9 @@ export const TravelForm = () => {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
                         initialFocus
                       />
                     </PopoverContent>
@@ -139,11 +189,22 @@ export const TravelForm = () => {
                         <Button
                           variant="input"
                           size="input"
-                          className={cn("text-left font-normal justify-start", !field.value && "text-muted-foreground")}
+                          className={cn(
+                            "text-left font-normal justify-start",
+                            !field.value && "text-muted-foreground",
+                          )}
                         >
-                          <CalendarIcon size={20} strokeWidth={1.5} className="text-primary" />
+                          <CalendarIcon
+                            size={20}
+                            strokeWidth={1.5}
+                            className="text-primary"
+                          />
 
-                          {field.value ? format(field.value, "dd/MM/yyyy") : <span>__/__/____</span>}
+                          {field.value ? (
+                            format(field.value, "dd/MM/yyyy")
+                          ) : (
+                            <span>__/__/____</span>
+                          )}
                         </Button>
                       </FormControl>
                     </PopoverTrigger>

@@ -1,5 +1,6 @@
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+
 import { cn } from "@/lib/utils";
 
 interface TravelFilterProps {
@@ -11,7 +12,7 @@ export const TravelFilter = ({ show }: TravelFilterProps) => {
     <div
       className={cn(
         "w-72 bg-white rounded-2xl p-5 hidden shadow-md lg:flex flex-col gap-6",
-        show && "flex h-72 p-5 overflow-y-auto",
+        show && "flex w-full overflow-y-auto rounded-none pt-0",
       )}
     >
       <div className="w-full flex flex-col gap-4">

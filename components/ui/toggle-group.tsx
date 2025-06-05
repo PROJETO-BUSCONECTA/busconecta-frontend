@@ -50,8 +50,6 @@ function ToggleGroupItem({
   VariantProps<typeof toggleVariants>) {
   const context = React.useContext(ToggleGroupContext);
 
-  console.log(context);
-
   return (
     <ToggleGroupPrimitive.Item
       data-slot="toggle-group-item"
