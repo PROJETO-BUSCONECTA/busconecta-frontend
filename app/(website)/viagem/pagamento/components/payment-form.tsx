@@ -20,7 +20,7 @@ const travelerSchema = z.object({
     .max(14, "Só é permitido no máximo 14 caracteres"),
 });
 
-const formSchema = z
+export const formSchema = z
   .object({
     travelers: z
       .array(travelerSchema)
@@ -228,7 +228,20 @@ export const PaymentForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      travelers: [],
+      travelers: [
+        {
+          name: "",
+          birthDate: undefined,
+          documentNumber: "",
+          documentType: undefined,
+        },
+        {
+          name: "",
+          birthDate: undefined,
+          documentNumber: "",
+          documentType: undefined,
+        },
+      ],
       email: "",
       tel: "",
       notification: false,
@@ -257,7 +270,7 @@ export const PaymentForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-6"
       >
-        <TravelersForm />
+        <TravelersForm control={form.control} />
       </form>
     </Form>
   );

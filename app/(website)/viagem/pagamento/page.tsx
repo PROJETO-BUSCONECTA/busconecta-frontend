@@ -9,7 +9,7 @@ const PaymentPage = () => {
       <Steps step={2} />
 
       <div className="w-full flex flex-col gap-6 lg:flex-row">
-        <div className="w-full flex flex-col items-center gap-6">
+        <div className="w-full flex flex-col items-center gap-6 lg:w-fit lg:min-w-sm">
           <TravelResume />
 
           <OrderResume />
