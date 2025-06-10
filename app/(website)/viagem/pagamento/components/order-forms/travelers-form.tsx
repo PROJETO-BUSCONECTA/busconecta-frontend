@@ -10,7 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import { Input } from "@/components/ui/input";
-import { formSchema } from "@/app/(website)/viagem/pagamento/components/payment-form";
+import { formSchema } from "@/app/(website)/viagem/pagamento/components/order-forms";
 import {
   FormControl,
   FormField,
@@ -160,7 +160,7 @@ export const TravelersForm = ({ control }: TravelersFormProps) => {
                               <FileTextIcon
                                 size={20}
                                 strokeWidth={1.5}
-                                className="text-primary"
+                                className="text-primary size-5"
                               />
                               <SelectValue placeholder="Selecione o tipo" />
                             </div>

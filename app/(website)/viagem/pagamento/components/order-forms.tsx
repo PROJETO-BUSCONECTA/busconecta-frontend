@@ -1,11 +1,15 @@
 "use client";
 
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form } from "@/components/ui/form";
-import { TravelersForm } from "./travelers-form";
+import { ContactForm } from "./order-forms/contact-form";
+import { TravelersForm } from "./order-forms/travelers-form";
+import { PaymentForm } from "./order-forms/payment-form";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const travelerSchema = z.object({
   name: z
@@ -31,18 +35,14 @@ export const formSchema = z
       .min(1, "Telefone é obrigatório")
       .max(15, "Telefone inválido"),
     notification: z.boolean({ message: "Valor inválido" }),
-    paymentMethod: z.enum(["credit", "pix", "transfer"]),
+    paymentMethod: z.enum(["credit", "pix"]),
     cardNumber: z.string().optional(),
     validDate: z.string().optional(),
     cvv: z.string().optional(),
     holderName: z.string().optional(),
     documentLinkedCard: z.string().optional(),
     postalCode: z.string().optional(),
-    installments: z.number().optional(),
-    bank: z.string().optional(),
-    documentLinkedBank: z.string().optional(),
-    bankAgency: z.string().optional(),
-    bankAccount: z.string().optional(),
+    installments: z.string().optional(),
   })
   .superRefine(
     (
@@ -55,10 +55,6 @@ export const formSchema = z
         documentLinkedCard,
         postalCode,
         installments,
-        bank,
-        documentLinkedBank,
-        bankAgency,
-        bankAccount,
       },
       ctx,
     ) => {
@@ -182,59 +178,53 @@ export const formSchema = z
         });
       }
 
-      if (paymentMethod === "transfer" && !bank) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Banco é obrigatório",
-          path: ["bank"],
-        });
-      }
-
-      if (paymentMethod === "transfer" && !bank) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Banco é obrigatório",
-          path: ["bank"],
-        });
-      }
-
-      if (paymentMethod === "transfer" && !documentLinkedBank) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Documento vinculado ao banco é obrigatório",
-          path: ["documentLinkedBank"],
-        });
-      }
-
-      if (paymentMethod === "transfer" && !bankAgency) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Agencia é obrigatório",
-          path: ["bankAgency"],
-        });
-      }
-
-      if (paymentMethod === "transfer" && !bankAccount) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Conta é obrigatório",
-          path: ["bankAccount"],
-        });
-      }
+      // if (paymentMethod === "transfer" && !bank) {
+      //   ctx.addIssue({
+      //     code: "custom",
+      //     message: "Banco é obrigatório",
+      //     path: ["bank"],
+      //   });
+      // }
+      //
+      // if (paymentMethod === "transfer" && !bank) {
+      //   ctx.addIssue({
+      //     code: "custom",
+      //     message: "Banco é obrigatório",
+      //     path: ["bank"],
+      //   });
+      // }
+      //
+      // if (paymentMethod === "transfer" && !documentLinkedBank) {
+      //   ctx.addIssue({
+      //     code: "custom",
+      //     message: "Documento vinculado ao banco é obrigatório",
+      //     path: ["documentLinkedBank"],
+      //   });
+      // }
+      //
+      // if (paymentMethod === "transfer" && !bankAgency) {
+      //   ctx.addIssue({
+      //     code: "custom",
+      //     message: "Agencia é obrigatório",
+      //     path: ["bankAgency"],
+      //   });
+      // }
+      //
+      // if (paymentMethod === "transfer" && !bankAccount) {
+      //   ctx.addIssue({
+      //     code: "custom",
+      //     message: "Conta é obrigatório",
+      //     path: ["bankAccount"],
+      //   });
+      // }
     },
   );
 
-export const PaymentForm = () => {
+export const OrderForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       travelers: [
-        {
-          name: "",
-          birthDate: undefined,
-          documentNumber: "",
-          documentType: undefined,
-        },
         {
           name: "",
           birthDate: undefined,
@@ -252,13 +242,11 @@ export const PaymentForm = () => {
       holderName: "",
       documentLinkedCard: "",
       postalCode: "",
-      installments: 1,
-      bank: "",
-      documentLinkedBank: "",
-      bankAgency: "",
-      bankAccount: "",
+      installments: "1",
     },
   });
+
+  const paymentMethod = form.watch("paymentMethod");
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log({ values });
@@ -268,9 +256,41 @@ export const PaymentForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full flex flex-col gap-6"
+        className="w-full flex flex-col items-center gap-6"
       >
         <TravelersForm control={form.control} />
+        <ContactForm control={form.control} />
+        <PaymentForm
+          control={form.control}
+          setValue={form.setValue}
+          paymentMethod={paymentMethod}
+        />
+
+        <span className="text-base text-center text-foreground/70 font-medium">
+          Ao clicar em Pagar agora, você aceita nossos{" "}
+          <Link
+            href="/termos-de-uso"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="text-primary"
+          >
+            termos de uso
+          </Link>{" "}
+          e{" "}
+          <Link
+            href="/politica-de-privacidade"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="text-primary"
+          >
+            política de privacidade
+          </Link>
+          .
+        </span>
+
+        <Button type="submit" size="lg" className="w-full xl:max-w-lg">
+          Pagar agora
+        </Button>
       </form>
     </Form>
   );
