@@ -5,6 +5,7 @@ import { CircleHelpIcon, LogIn } from "lucide-react";
 import { Button } from "../ui/button";
 
 import { cn } from "@/lib/utils";
+import { HeaderNavigationBox } from "./header-navigation-box";
 
 interface HeaderProps {
   wrapperClassName?: string;
@@ -43,19 +44,24 @@ export const Header = ({
           <div className="flex items-center gap-6">
             <Button
               variant="ghost"
-              size="lg"
-              className="hidden sm:block text-secondary"
+              size="icon"
+              className="hidden sm:flex text-secondary"
             >
               <CircleHelpIcon size={24} strokeWidth={1.5} />
             </Button>
 
-            <Button variant="header" size="lg" className="text-xl" asChild>
-              <Link href="/login">
-                <span>Entrar</span>
+            {/* TODO: adicionar variavel para verificar se usuário está logado */}
+            {true ? (
+              <HeaderNavigationBox />
+            ) : (
+              <Button variant="header" size="lg" className="text-xl" asChild>
+                <Link href="/login">
+                  <span>Entrar</span>
 
-                <LogIn size={24} strokeWidth={1.5} />
-              </Link>
-            </Button>
+                  <LogIn size={24} strokeWidth={1.5} />
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
       </div>
