@@ -1,7 +1,7 @@
 import { ProfileFormBox } from "./components/profile-form-box";
 import { PasswordFormBox } from "./components/password-form-box";
 
-import { NavigationBox } from "./components/navigation-box";
+import { NavigationBox } from "../components/navigation-box";
 
 const ProfilePage = () => {
   return (

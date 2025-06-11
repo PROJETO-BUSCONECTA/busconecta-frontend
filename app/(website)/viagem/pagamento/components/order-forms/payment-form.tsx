@@ -41,7 +41,9 @@ export const PaymentForm = ({
 }: PaymentFormProps) => {
   return (
     <div className="w-full bg-white p-6 rounded-2xl shadow-md">
-      <h4 className="text-foreground text-lg font-semibold mb-5">Pagamento</h4>
+      <h4 className="text-foreground text-lg font-semibold mb-5 lg:text-xl">
+        Pagamento
+      </h4>
 
       <div className="w-full flex flex-col gap-5">
         <div className="w-full flex flex-wrap gap-5">

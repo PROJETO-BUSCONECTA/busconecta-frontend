@@ -5,7 +5,7 @@ import { ptBR } from "date-fns/locale";
 export const TravelResume = () => {
   return (
     <div className="w-full bg-white p-6 rounded-2xl shadow-md sm:max-w-sm">
-      <h4 className="text-foreground text-lg font-semibold mb-5">
+      <h4 className="text-foreground text-lg font-semibold mb-5 lg:text-xl">
         Resumo da viagem
       </h4>
 

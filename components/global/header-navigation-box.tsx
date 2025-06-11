@@ -1,11 +1,14 @@
 "use client";
 
 import {
+  ChartSplineIcon,
   ChevronDownIcon,
   LogOutIcon,
   MenuIcon,
+  Table2Icon,
   TicketIcon,
   UserRoundIcon,
+  UsersRoundIcon,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import {
@@ -18,7 +21,11 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
-export const HeaderNavigationBox = () => {
+interface HeaderNavigationBoxProps {
+  isAdmin: boolean;
+}
+
+export const HeaderNavigationBox = ({ isAdmin }: HeaderNavigationBoxProps) => {
   const pathname = usePathname();
 
   return (
@@ -37,43 +44,114 @@ export const HeaderNavigationBox = () => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="p-0 rounded-2xl min-w-52" align="end">
-        <DropdownMenuItem className="focus:bg-white px-5 py-4 border-b border-muted">
-          <Link
-            href="/dashboard/perfil"
-            className={cn(
-              "w-full flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors hover:text-primary",
-              pathname === "/dashboard/perfil" && "text-primary",
-            )}
-          >
-            <UserRoundIcon className="size-6 shrink-0 text-primary" />
-            Perfil
-          </Link>
-        </DropdownMenuItem>
+        {isAdmin ? (
+          <>
+            <DropdownMenuItem className="focus:bg-white px-5 py-4 border-b border-muted">
+              <Link
+                href="/dashboard/admin"
+                className={cn(
+                  "w-full flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors hover:text-primary",
+                  pathname === "/dashboard/admin" && "text-primary",
+                )}
+              >
+                <Table2Icon className="size-6 shrink-0 text-primary" />
+                Dashboard
+              </Link>
+            </DropdownMenuItem>
 
-        <DropdownMenuItem className="focus:bg-white px-5 py-4 border-b border-muted">
-          <Link
-            href="/dashboard/pedidos"
-            className={cn(
-              "w-full flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors hover:text-primary",
-              pathname === "/dashboard/pedidos" && "text-primary",
-            )}
-          >
-            <TicketIcon className="size-6 shrink-0 text-primary" />
-            Pedidos
-          </Link>
-        </DropdownMenuItem>
+            <DropdownMenuItem className="focus:bg-white px-5 py-4 border-b border-muted">
+              <Link
+                href="/dashboard/admin/vendas-e-reservas"
+                className={cn(
+                  "w-full flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors hover:text-primary",
+                  pathname === "/dashboard/admin/vendas-e-reservas" &&
+                    "text-primary",
+                )}
+              >
+                <TicketIcon className="size-6 shrink-0 text-primary" />
+                Vendas e Reservas
+              </Link>
+            </DropdownMenuItem>
 
-        <DropdownMenuItem className="focus:bg-white px-5 py-4">
-          <Button
-            variant="ghost"
-            className={cn(
-              "w-full !p-0 flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors hover:text-primary",
-            )}
-          >
-            <LogOutIcon className="size-6 shrink-0 text-primary" />
-            Sair
-          </Button>
-        </DropdownMenuItem>
+            <DropdownMenuItem className="focus:bg-white px-5 py-4 border-b border-muted">
+              <Link
+                href="/dashboard/admin/usuarios"
+                className={cn(
+                  "w-full flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors hover:text-primary",
+                  pathname === "/dashboard/admin/usuarios" && "text-primary",
+                )}
+              >
+                <UsersRoundIcon className="size-6 shrink-0 text-primary" />
+                Usuários
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem className="focus:bg-white px-5 py-4 border-b border-muted">
+              <Link
+                href="/dashboard/admin/relatorios"
+                className={cn(
+                  "w-full flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors hover:text-primary",
+                  pathname === "/dashboard/admin/relatorios" && "text-primary",
+                )}
+              >
+                <ChartSplineIcon className="size-6 shrink-0 text-primary" />
+                Relatórios
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem className="focus:bg-white px-5 py-4">
+              <Button
+                variant="ghost"
+                className={cn(
+                  "w-full !p-0 flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors hover:text-primary",
+                )}
+              >
+                <LogOutIcon className="size-6 shrink-0 text-primary" />
+                Sair
+              </Button>
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <>
+            <DropdownMenuItem className="focus:bg-white px-5 py-4 border-b border-muted">
+              <Link
+                href="/dashboard/perfil"
+                className={cn(
+                  "w-full flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors hover:text-primary",
+                  pathname === "/dashboard/perfil" && "text-primary",
+                )}
+              >
+                <UserRoundIcon className="size-6 shrink-0 text-primary" />
+                Perfil
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem className="focus:bg-white px-5 py-4 border-b border-muted">
+              <Link
+                href="/dashboard/pedidos"
+                className={cn(
+                  "w-full flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors hover:text-primary",
+                  pathname === "/dashboard/pedidos" && "text-primary",
+                )}
+              >
+                <TicketIcon className="size-6 shrink-0 text-primary" />
+                Pedidos
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem className="focus:bg-white px-5 py-4">
+              <Button
+                variant="ghost"
+                className={cn(
+                  "w-full !p-0 flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors hover:text-primary",
+                )}
+              >
+                <LogOutIcon className="size-6 shrink-0 text-primary" />
+                Sair
+              </Button>
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

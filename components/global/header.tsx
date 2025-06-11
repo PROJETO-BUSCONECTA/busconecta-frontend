@@ -50,9 +50,9 @@ export const Header = ({
               <CircleHelpIcon size={24} strokeWidth={1.5} />
             </Button>
 
-            {/* TODO: adicionar variavel para verificar se usuário está logado */}
+            {/* TODO: adicionar variavel para verificar se usuário está logado e se é admin */}
             {true ? (
-              <HeaderNavigationBox />
+              <HeaderNavigationBox isAdmin />
             ) : (
               <Button variant="header" size="lg" className="text-xl" asChild>
                 <Link href="/login">
