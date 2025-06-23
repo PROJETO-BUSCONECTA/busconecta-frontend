@@ -3,32 +3,12 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  FileTextIcon,
-  MailIcon,
-  PhoneIcon,
-  SaveIcon,
-  SquareChartGanttIcon,
-  UserIcon,
-} from "lucide-react";
+import { FileTextIcon, MailIcon, PhoneIcon, SaveIcon, SquareChartGanttIcon, UserIcon } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 
 export const formSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -58,15 +38,10 @@ export const ProfileFormBox = () => {
 
   return (
     <div className="w-full bg-white p-6 rounded-2xl shadow-md">
-      <h4 className="text-foreground text-lg font-semibold mb-5 lg:text-xl">
-        Dados do perfil
-      </h4>
+      <h4 className="text-foreground text-lg font-semibold mb-5 lg:text-xl">Dados do perfil</h4>
 
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full flex flex-col gap-8 sm:items-end"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col gap-8 sm:items-end">
           <div className="w-full flex flex-col gap-4">
             <div className="w-full flex flex-col gap-4 sm:flex-row">
               <FormField
@@ -162,18 +137,11 @@ export const ProfileFormBox = () => {
                   <FormItem className="w-full">
                     <FormLabel>Tipo do documento</FormLabel>
 
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger className="w-full input-container focus-visible:ring-0 !h-11">
                           <div className="flex items-center gap-2">
-                            <FileTextIcon
-                              size={20}
-                              strokeWidth={1.5}
-                              className="text-primary size-5"
-                            />
+                            <FileTextIcon size={20} strokeWidth={1.5} className="text-primary size-5" />
                             <SelectValue placeholder="Selecione o tipo" />
                           </div>
                         </SelectTrigger>
