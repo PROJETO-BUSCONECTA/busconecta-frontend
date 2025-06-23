@@ -13,40 +13,33 @@ interface HeaderProps {
   boxClassName?: string;
 }
 
-export const Header = ({
-  wrapperClassName,
-  containerClassName,
-  boxClassName,
-}: HeaderProps) => {
+export const Header = ({ wrapperClassName, containerClassName, boxClassName }: HeaderProps) => {
   return (
     <header className={cn("w-full", wrapperClassName)}>
       <div
         className={cn(
           "fixed z-10 top-0 left-1/2 -translate-x-1/2 w-full sm:px-16 sm:pt-5 lg:container lg:mx-auto",
-          containerClassName,
+          containerClassName
         )}
       >
         <div
           className={cn(
             "w-full bg-primary p-6 rounded-b-[50px] shadow-lg flex items-center justify-between gap-4 sm:rounded-full",
-            boxClassName,
+            boxClassName
           )}
         >
-          <div className="relative w-[143px] h-[35px]">
+          <Link href="/" className="w-fit">
             <Image
-              src="/images/logo.svg"
+              src="/images/logo-header.png"
               alt="Busconecta"
-              fill
-              className="object-contain object-left"
+              width={143}
+              height={35}
+              className="object-cover object-center"
             />
-          </div>
+          </Link>
 
           <div className="flex items-center gap-6">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hidden sm:flex text-secondary"
-            >
+            <Button variant="ghost" size="icon" className="hidden sm:flex text-secondary">
               <CircleHelpIcon size={24} strokeWidth={1.5} />
             </Button>
 

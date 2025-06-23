@@ -12,7 +12,7 @@ import {
   CalendarDaysIcon,
   ChevronLeftIcon,
   MailIcon,
-  PlusIcon,
+  SaveIcon,
   UserIcon,
   UserRoundCogIcon,
 } from "lucide-react";
@@ -54,9 +54,10 @@ const formSchema = z.object({
   channel: z.enum(["Balcão", "Online"]),
 });
 
-export const UserRegisterForm = () => {
+export const UserEditForm = () => {
   const router = useRouter();
 
+  // TODO: adicionar informações depois da request com os dados do usuário
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -80,7 +81,7 @@ export const UserRegisterForm = () => {
   return (
     <div className="w-full bg-white p-6 rounded-2xl shadow-md">
       <h4 className="text-foreground text-lg font-semibold mb-5 lg:text-xl">
-        Adicione o usuário
+        Edite o usuário
       </h4>
 
       <Form {...form}>
@@ -311,7 +312,7 @@ export const UserRegisterForm = () => {
 
           <div className="w-full flex flex-col gap-5 sm:flex-row-reverse">
             <Button type="submit" size="lg" className="w-full sm:w-44">
-              Criar usuário <PlusIcon className="size-5 !text-white" />
+              Salvar <SaveIcon className="size-5 !text-white" />
             </Button>
 
             <Button

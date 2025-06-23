@@ -34,7 +34,7 @@ export const AdminNavigationBox = () => {
         href="/dashboard/admin/vendas-e-reservas"
         className={cn(
           "w-full px-5 py-4 flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors border-b border-muted hover:text-primary",
-          pathname === "/dashboard/vendas-e-reservas" && "text-primary",
+          pathname === "/dashboard/admin/vendas-e-reservas" && "text-primary",
         )}
       >
         <TicketIcon className="size-6 shrink-0 text-primary" />
@@ -45,7 +45,7 @@ export const AdminNavigationBox = () => {
         href="/dashboard/admin/usuarios"
         className={cn(
           "w-full px-5 py-4 flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors border-b border-muted hover:text-primary",
-          pathname === "/dashboard/usuarios" && "text-primary",
+          pathname.includes("/dashboard/admin/usuarios") && "text-primary",
         )}
       >
         <UsersRoundIcon className="size-6 shrink-0 text-primary" />
@@ -56,7 +56,7 @@ export const AdminNavigationBox = () => {
         href="/dashboard/admin/relatorios"
         className={cn(
           "w-full px-5 py-4 flex items-center justify-start gap-2 text-foreground text-lg font-medium transition-colors border-b border-muted hover:text-primary",
-          pathname === "/dashboard/relatorios" && "text-primary",
+          pathname === "/dashboard/admin/relatorios" && "text-primary",
         )}
       >
         <ChartSplineIcon className="size-6 shrink-0 text-primary" />

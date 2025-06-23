@@ -10,21 +10,17 @@ export const Footer = () => {
         <div className="w-full flex flex-col items-center gap-5 sm:flex-row sm:justify-between">
           <Link href="/" className="w-fit">
             <Image
-              src="/images/logo.svg"
+              src="/images/logo-footer.png"
               alt="Busconecta"
               width={283}
               height={70}
+              className="object-cover object-left"
             />
           </Link>
 
           <Button variant="secondary" size="lg">
             Entre em contato
-            <Image
-              src="/icons/whatsapp.svg"
-              alt="Whatsapp"
-              width={24}
-              height={24}
-            />
+            <Image src="/icons/whatsapp.svg" alt="Whatsapp" width={24} height={24} />
           </Button>
         </div>
 
@@ -32,50 +28,29 @@ export const Footer = () => {
           <ul className="flex items-center gap-6">
             <li className="size-9">
               <a href="*" target="_blank" rel="noreferrer noopener">
-                <Image
-                  src="/icons/facebook.svg"
-                  alt="Facebook"
-                  width={36}
-                  height={36}
-                />
+                <Image src="/icons/facebook.svg" alt="Facebook" width={36} height={36} />
               </a>
             </li>
 
             <li className="size-9">
               <a href="*" target="_blank" rel="noreferrer noopener">
-                <Image
-                  src="/icons/instagram.svg"
-                  alt="Instagram"
-                  width={36}
-                  height={36}
-                />
+                <Image src="/icons/instagram.svg" alt="Instagram" width={36} height={36} />
               </a>
             </li>
 
             <li className="size-9">
               <a href="*" target="_blank" rel="noreferrer noopener">
-                <Image
-                  src="/icons/gmail.svg"
-                  alt="Gmail"
-                  width={36}
-                  height={36}
-                />
+                <Image src="/icons/gmail.svg" alt="Gmail" width={36} height={36} />
               </a>
             </li>
           </ul>
 
           <div className="w-full flex flex-col items-center gap-7 sm:items-end lg:flex-row lg:w-fit">
-            <Link
-              href="/termos-de-uso"
-              className="text-base font-medium text-white"
-            >
+            <Link href="/termos-de-uso" className="text-base font-medium text-white">
               Termos de Uso
             </Link>
 
-            <Link
-              href="/politica-de-privacidade"
-              className="text-base font-medium text-white"
-            >
+            <Link href="/politica-de-privacidade" className="text-base font-medium text-white">
               Política de Privacidade
             </Link>
 
