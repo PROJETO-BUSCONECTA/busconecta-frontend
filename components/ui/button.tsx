@@ -9,20 +9,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 [&_svg]:text-secondary",
+        default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 [&_svg]:text-secondary",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
-          "border border-primary bg-background shadow-xs text-primary hover:bg-primary hover:text-white dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+          "border border-primary bg-transparent shadow-xs text-primary hover:bg-primary hover:text-white dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+        secondary: "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         ghost: "hover:text-white dark:hover:text-white",
-        "input-ghost":
-          "text-foreground/30 hover:text-primary dark:hover:text-primary",
+        "input-ghost": "text-foreground/30 hover:text-primary dark:hover:text-primary",
         link: "text-primary underline-offset-4 hover:underline",
-        input:
-          "border border-foreground/20 rounded-full transition-colors hover:border-primary",
+        input: "border border-foreground/20 rounded-full transition-colors hover:border-primary",
         header: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
       },
       size: {
@@ -37,7 +33,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  },
+  }
 );
 
 function Button({
@@ -52,13 +48,7 @@ function Button({
   }) {
   const Comp = asChild ? Slot : "button";
 
-  return (
-    <Comp
-      data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
-  );
+  return <Comp data-slot="button" className={cn(buttonVariants({ variant, size, className }))} {...props} />;
 }
 
 export { Button, buttonVariants };
