@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/form";
 
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z
@@ -31,6 +33,8 @@ const formSchema = z.object({
 export const LoginForm = () => {
   const [passwordView, setPasswordView] = useState("password");
 
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,8 +43,24 @@ export const LoginForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log({ values });
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const data = await fetch("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify(values),
+    });
+
+    const res = await data.json();
+
+    if (!data.ok) {
+      if (data.status !== 401) {
+        toast.error("Ocorreu um erro, tente novamente mais tarde");
+      } else {
+        toast.error(res.message);
+      }
+    }
+
+    // TODO: adicionar verificação para ter uma url de retorno, caso o usuário esteja fazendo o login no meio do processo de compra da passagem
+    router.push("/");
   };
 
   const handlePasswordView = () => {
