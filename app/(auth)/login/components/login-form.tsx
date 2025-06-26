@@ -4,36 +4,28 @@ import { z } from "zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EyeIcon, EyeOffIcon, LockIcon, MailIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, Loader2Icon, LockIcon, MailIcon } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
-  email: z
-    .string()
-    .trim()
-    .email({ message: "E-mail inválido" })
-    .min(1, { message: "E-mail é obrigatório" }),
+  email: z.string().trim().email({ message: "E-mail inválido" }).min(1, { message: "E-mail é obrigatório" }),
   password: z.string().min(1, { message: "Senha é obrigatória" }),
 });
 
 export const LoginForm = () => {
   const [passwordView, setPasswordView] = useState("password");
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirectUrl");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,23 +36,39 @@ export const LoginForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const data = await fetch("/api/auth/login", {
-      method: "POST",
-      body: JSON.stringify(values),
-    });
+    setIsLoading(true);
 
-    const res = await data.json();
+    try {
+      const data = await fetch("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify(values),
+      });
 
-    if (!data.ok) {
-      if (data.status !== 401) {
-        toast.error("Ocorreu um erro, tente novamente mais tarde");
+      const res = await data.json();
+
+      if (!data.ok) {
+        if (data.status !== 401) {
+          toast.error("Ocorreu um erro, tente novamente mais tarde");
+        } else {
+          toast.error(res.message);
+        }
       } else {
-        toast.error(res.message);
+        if (redirectUrl) {
+          router.push(redirectUrl);
+        } else {
+          if (res.user.tipo === "ADMIN") {
+            router.push("/dashboard/admin");
+          } else {
+            router.push("/dashboard/perfil");
+          }
+        }
       }
+    } catch (error) {
+      console.error("Ocorreu um erro ao logar: ", error);
+      toast.error("Ocorreu um erro, tente novamente mais tarde");
+    } finally {
+      setIsLoading(false);
     }
-
-    // TODO: adicionar verificação para ter uma url de retorno, caso o usuário esteja fazendo o login no meio do processo de compra da passagem
-    router.push("/");
   };
 
   const handlePasswordView = () => {
@@ -79,10 +87,7 @@ export const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full flex flex-col gap-7 mb-6"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col gap-7 mb-6">
         <div className="w-full flex flex-col gap-4">
           <FormField
             control={form.control}
@@ -97,17 +102,9 @@ export const LoginForm = () => {
                       "input-error": !!form.formState.errors.email?.message,
                     })}
                   >
-                    <MailIcon
-                      size={20}
-                      strokeWidth={1.5}
-                      className="text-primary"
-                    />
+                    <MailIcon size={20} strokeWidth={1.5} className="text-primary" />
 
-                    <Input
-                      className="input-reset"
-                      placeholder="Insira o seu e-mail"
-                      {...field}
-                    />
+                    <Input className="input-reset" placeholder="Insira o seu e-mail" {...field} />
                   </div>
                 </FormControl>
 
@@ -125,35 +122,17 @@ export const LoginForm = () => {
 
                 <FormControl>
                   <div
-                    className={cn(
-                      "input-container flex items-center justify-between",
-                      {
-                        "input-error":
-                          !!form.formState.errors.password?.message,
-                      },
-                    )}
+                    className={cn("input-container flex items-center justify-between", {
+                      "input-error": !!form.formState.errors.password?.message,
+                    })}
                   >
                     <div className="flex items-center gap-2">
-                      <LockIcon
-                        size={20}
-                        strokeWidth={1.5}
-                        className="text-primary"
-                      />
+                      <LockIcon size={20} strokeWidth={1.5} className="text-primary" />
 
-                      <Input
-                        className="input-reset"
-                        type={passwordView}
-                        placeholder="Insira a sua senha"
-                        {...field}
-                      />
+                      <Input className="input-reset" type={passwordView} placeholder="Insira a sua senha" {...field} />
                     </div>
 
-                    <Button
-                      type="button"
-                      size="icon"
-                      variant="input-ghost"
-                      onClick={handlePasswordView}
-                    >
+                    <Button type="button" size="icon" variant="input-ghost" onClick={handlePasswordView}>
                       {passwordView === "text" ? (
                         <EyeIcon size={20} strokeWidth={1.5} />
                       ) : (
@@ -169,8 +148,9 @@ export const LoginForm = () => {
           />
         </div>
 
-        <Button type="submit" size="lg">
+        <Button type="submit" size="lg" disabled={isLoading}>
           Entrar
+          {isLoading && <Loader2Icon className="size-5 animate-spin !text-white" />}
         </Button>
       </form>
     </Form>
