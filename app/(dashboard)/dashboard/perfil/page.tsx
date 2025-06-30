@@ -1,4 +1,4 @@
-import { ProfileFormBox } from "./components/profile-form-box";
+import { ProfileBox } from "./components/profile-box";
 import { PasswordFormBox } from "./components/password-form-box";
 
 import { NavigationBox } from "../components/navigation-box";
@@ -10,7 +10,7 @@ const ProfilePage = () => {
         <NavigationBox />
 
         <div className="w-full flex flex-col gap-4">
-          <ProfileFormBox />
+          <ProfileBox />
 
           <PasswordFormBox />
         </div>
