@@ -68,11 +68,7 @@ export const UserActions = ({ user }: UserActionsProps) => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <UserDeleteConfirmationModal
-        user={user}
-        opened={opened}
-        setOpened={setOpened}
-      />
+      <UserDeleteConfirmationModal user={user} opened={opened} setOpened={setOpened} />
     </AlertDialog>
   );
 };
@@ -86,38 +82,31 @@ export const UserEditButton = ({ user, closeDropdown }: UserActionsProps) => {
   };
 
   return (
-    <DropdownMenuItem
-      onClick={handleEdit}
-      className="text-foreground font-medium"
-    >
+    <DropdownMenuItem onClick={handleEdit} className="text-foreground font-medium">
       <Edit2Icon className="text-primary" /> Editar
     </DropdownMenuItem>
   );
 };
 
-export const UserDeleteConfirmationModal = ({
-  user,
-  opened,
-  setOpened,
-}: UserDeleteConfirmationModalProps) => {
+export const UserDeleteConfirmationModal = ({ user, opened, setOpened }: UserDeleteConfirmationModalProps) => {
   const handleCancel = () => {
     setOpened(false);
+    console.log({ user, opened }); // TODO: Temporário, deletar depois
   };
 
   const handleDelete = () => {
     setOpened(false);
+    console.log({ user, opened }); // TODO: Temporário, deletar depois
   };
 
   return (
     <AlertDialogContent onEscapeKeyDown={() => setOpened(false)}>
       <AlertDialogHeader>
-        <AlertDialogTitle>
-          Tem certeza que deseja excluir este usuário?
-        </AlertDialogTitle>
+        <AlertDialogTitle>Tem certeza que deseja excluir este usuário?</AlertDialogTitle>
 
         <AlertDialogDescription>
-          Essa ação é irreversível e todos os dados vinculados a este usuário
-          serão permanentemente removidos do sistema.
+          Essa ação é irreversível e todos os dados vinculados a este usuário serão permanentemente removidos do
+          sistema.
         </AlertDialogDescription>
       </AlertDialogHeader>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeIcon, EyeOffIcon, Loader2Icon, LockIcon, MailIcon } from "lucide-react";
@@ -20,6 +20,14 @@ const formSchema = z.object({
 });
 
 export const LoginForm = () => {
+  return (
+    <Suspense>
+      <LoginFormSuspense />
+    </Suspense>
+  );
+};
+
+const LoginFormSuspense = () => {
   const [passwordView, setPasswordView] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
 
