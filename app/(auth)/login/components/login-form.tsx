@@ -47,28 +47,25 @@ const LoginFormSuspense = () => {
     setIsLoading(true);
 
     try {
-      const data = await fetch("/api/auth/login", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
 
-      const res = await data.json();
+      const data = await res.json();
 
-      if (!data.ok) {
-        if (data.status !== 401) {
+      if (!res.ok) {
+        if (res.status !== 401) {
           toast.error("Ocorreu um erro, tente novamente mais tarde");
         } else {
-          toast.error(res.message);
+          toast.error(data.message);
         }
       } else {
         if (redirectUrl) {
           router.push(redirectUrl);
         } else {
-          if (res.user.tipo === "ADMIN") {
-            router.push("/dashboard/admin");
-          } else {
-            router.push("/dashboard/perfil");
-          }
+          router.push(data.userType === "ADMIN" ? "/dashboard/admin" : "/dashboard/perfil");
         }
       }
     } catch (error) {
