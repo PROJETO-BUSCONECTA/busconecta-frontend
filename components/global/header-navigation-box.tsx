@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { toast } from "sonner";
+import { usePathname } from "next/navigation";
 import {
   ChartSplineIcon,
   ChevronDownIcon,
@@ -10,11 +13,11 @@ import {
   UserRoundIcon,
   UsersRoundIcon,
 } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
 import { Button } from "../ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
 
 interface HeaderNavigationBoxProps {
   isAdmin: boolean;
@@ -25,12 +28,18 @@ export const HeaderNavigationBox = ({ isAdmin, name }: HeaderNavigationBoxProps)
   const pathname = usePathname();
 
   const handleLogout = async () => {
-    const res = await fetch("/api/auth/logout", {
-      method: "POST",
-    });
+    try {
+      const res = await fetch("/api/auth/logout", {
+        method: "POST",
+      });
 
-    if (res.redirected) {
-      window.location.href = res.url;
+      if (res.redirected) {
+        window.location.href = res.url;
+      }
+    } catch (error) {
+      console.error("Ocorreu um erro ao sair da conta: ", error);
+
+      toast.error("Ocorreu um erro, tente novamente mais tarde");
     }
   };
 

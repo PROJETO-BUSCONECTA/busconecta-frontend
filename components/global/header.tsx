@@ -3,9 +3,9 @@ import Image from "next/image";
 import { CircleHelpIcon, LogIn } from "lucide-react";
 
 import { Button } from "../ui/button";
+import { HeaderNavigationBox } from "./header-navigation-box";
 
 import { cn } from "@/lib/utils";
-import { HeaderNavigationBox } from "./header-navigation-box";
 import { getUser } from "@/lib/get-user";
 
 interface HeaderProps {
