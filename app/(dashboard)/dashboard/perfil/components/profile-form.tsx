@@ -37,9 +37,9 @@ export const ProfileForm = ({ userData }: Props) => {
       id: userData.id || "",
       name: userData.nome || "",
       email: userData.email || "",
-      tel: "",
-      documentType: undefined,
-      documentNumber: "",
+      tel: userData.telefone || "",
+      documentType: userData.tipoDocumento || undefined,
+      documentNumber: userData.documento || "",
     },
   });
 
@@ -64,7 +64,7 @@ export const ProfileForm = ({ userData }: Props) => {
         toast.success(res.message);
       }
     } catch (error) {
-      console.error("Ocorreu um erro ao logar: ", error);
+      console.error("Ocorreu um erro ao alterar os dados do usuário: ", error);
       toast.error("Ocorreu um erro, tente novamente mais tarde");
     } finally {
       setIsLoading(false);
@@ -86,9 +86,10 @@ export const ProfileForm = ({ userData }: Props) => {
                   <FormControl>
                     <div className="relative">
                       <Input
+                        {...field}
+                        disabled={isLoading}
                         className="input-container focus-visible:ring-0 !pl-11 h-11"
                         placeholder="Insira seu nome completo"
-                        {...field}
                       />
 
                       <UserIcon
@@ -114,9 +115,10 @@ export const ProfileForm = ({ userData }: Props) => {
                   <FormControl>
                     <div className="relative">
                       <Input
+                        {...field}
+                        disabled
                         className="input-container focus-visible:ring-0 !pl-11 h-11"
                         placeholder="Insira seu e-mail"
-                        {...field}
                       />
 
                       <MailIcon
@@ -145,6 +147,7 @@ export const ProfileForm = ({ userData }: Props) => {
                     <div className="relative">
                       <Input
                         {...field}
+                        disabled={isLoading}
                         className="input-container focus-visible:ring-0 !pl-11 h-11"
                         placeholder="Insira seu telefone"
                         maxLength={11}
@@ -175,7 +178,7 @@ export const ProfileForm = ({ userData }: Props) => {
                 <FormItem className="w-full">
                   <FormLabel>Tipo do documento</FormLabel>
 
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select disabled={isLoading} onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger className="w-full input-container focus-visible:ring-0 !h-11">
                         <div className="flex items-center gap-2">
@@ -207,6 +210,7 @@ export const ProfileForm = ({ userData }: Props) => {
                     <div className="relative">
                       <Input
                         {...field}
+                        disabled={isLoading}
                         className="input-container focus-visible:ring-0 !pl-11 h-11"
                         placeholder="Insira o número do documento"
                       />
@@ -226,7 +230,7 @@ export const ProfileForm = ({ userData }: Props) => {
           </div>
         </div>
 
-        <Button type="submit" size="lg" className="w-full sm:w-44">
+        <Button disabled={isLoading} type="submit" size="lg" className="w-full sm:w-44">
           Salvar
           {isLoading ? (
             <Loader2Icon className="size-5 animate-spin !text-white" />
