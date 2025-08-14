@@ -1,9 +1,16 @@
+"use client";
+
 import { OrderBox } from "./order-box";
 
-export const OrdersWrapper = () => {
+interface OrdersWrapperProps {
+  orders: string[]; // TODO: adicionar tipo
+}
+
+export const OrdersWrapper = ({ orders }: OrdersWrapperProps) => {
   return (
     <div className="w-full flex flex-col gap-5">
-      {Array.from({ length: 5 }).map((arr, index) => (
+      {/* TODO: criar estado vazio quando não apresentar pedidos */}
+      {orders.map((order, index) => (
         <OrderBox key={`order-${index}`} />
       ))}
     </div>

@@ -120,7 +120,7 @@
 }
 
 .input-container {
-  @apply w-full border border-foreground/20 rounded-full transition-colors focus-within:border-primary px-4 py-1;
+  @apply w-full h-11 border border-foreground/20 rounded-full transition-colors focus-within:border-primary px-4 py-1;
 }
 
 .input-reset {
