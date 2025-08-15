@@ -94,5 +94,5 @@ export const UsersTableBox = () => {
 };
 
 export const UsersTableBoxLoading = () => {
-    return <Skeleton className="w-full h-[500px]" />;
+    return <Skeleton className="w-full h-[358px]" />;
 };

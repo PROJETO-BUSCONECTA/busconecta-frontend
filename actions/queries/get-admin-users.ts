@@ -1,10 +1,11 @@
 "use server";
 
+import { cache } from "react";
 import { cookies } from "next/headers";
 
 import { User } from "@/types/user";
 
-export const getAdminUsers = async (): Promise<{ success: boolean; error?: string; data?: User[] }> => {
+export const getAdminUsers = cache(async (): Promise<{ success: boolean; error?: string; data?: User[] }> => {
     try {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
@@ -32,4 +33,4 @@ export const getAdminUsers = async (): Promise<{ success: boolean; error?: strin
 
         return { success: false, error: error instanceof Error ? error.message : "Ocorreu um erro!" };
     }
-};
+});
