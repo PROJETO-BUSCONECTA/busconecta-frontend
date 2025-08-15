@@ -11,6 +11,8 @@ import { ChannelSalesChartsBox, ChannelSalesChartsBoxLoading } from "./component
 const AdminDashboardPage = async () => {
     const data = await getAdminDashboard();
 
+    console.log({ dashboardData: data });
+
     return (
         <Suspense fallback={<AdminDashboardPageLoading />}>
             <div className="w-full px-6 -mt-11 pb-12 sm:px-16 lg:container lg:mx-auto">
