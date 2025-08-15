@@ -1,9 +1,10 @@
 "use server";
 
+import { cache } from "react";
 import { cookies } from "next/headers";
 
 // TODO: Adicionar tipo do retorno da função
-export const getAllOrders = async () => {
+export const getAllOrders = cache(async () => {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
@@ -27,4 +28,4 @@ export const getAllOrders = async () => {
     }
 
     return data;
-};
+});

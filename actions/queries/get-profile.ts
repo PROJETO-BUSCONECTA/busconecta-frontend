@@ -1,9 +1,11 @@
 "use server";
 
-import { User } from "@/types/user";
+import { cache } from "react";
 import { cookies } from "next/headers";
 
-export const getProfile = async (): Promise<User | null> => {
+import { User } from "@/types/user";
+
+export const getProfile = cache(async (): Promise<User | null> => {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
@@ -28,4 +30,4 @@ export const getProfile = async (): Promise<User | null> => {
     }
 
     return data;
-};
+});

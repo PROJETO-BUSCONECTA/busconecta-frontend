@@ -1,8 +1,9 @@
 "use server";
 
-import { updateProfileFormSchema } from "@/app/(dashboard)/dashboard/perfil/components/profile-form";
-import { cookies } from "next/headers";
 import { z } from "zod";
+import { cookies } from "next/headers";
+
+import { updateProfileFormSchema } from "@/app/(dashboard)/dashboard/perfil/components/profile-form";
 
 export const updateUser = async ({
     documentNumber,
