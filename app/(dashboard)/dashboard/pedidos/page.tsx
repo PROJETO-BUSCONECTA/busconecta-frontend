@@ -4,9 +4,11 @@ import { NavigationBox } from "../components/navigation-box";
 import { getAllOrders } from "@/actions/queries/get-all-orders";
 
 const OrdersPage = async () => {
-    const orders = await getAllOrders();
+    const res = await getAllOrders();
 
-    console.log({ orders });
+    if (!res.data) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <div className="w-full px-6 -mt-11 sm:px-16 lg:container lg:mx-auto">
@@ -16,7 +18,7 @@ const OrdersPage = async () => {
                 <div className="w-full flex flex-col gap-9">
                     <OrderFilterBox />
 
-                    <OrdersWrapper orders={orders} />
+                    <OrdersWrapper orders={res.data} />
                 </div>
             </div>
         </div>

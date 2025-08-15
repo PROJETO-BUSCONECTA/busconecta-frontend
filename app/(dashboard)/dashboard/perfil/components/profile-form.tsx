@@ -13,6 +13,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { updateUser } from "@/actions/mutations/user/update-user";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const updateProfileFormSchema = z.object({
     id: z.string().min(1, "ID é obrigatório"),
@@ -26,7 +27,7 @@ export const updateProfileFormSchema = z.object({
 });
 
 interface Props {
-    userData: User | null;
+    userData: User | undefined;
 }
 
 export const ProfileForm = ({ userData }: Props) => {
@@ -241,5 +242,51 @@ export const ProfileForm = ({ userData }: Props) => {
                 </Button>
             </form>
         </Form>
+    );
+};
+
+export const ProfileFormLoading = () => {
+    return (
+        <div className="w-full flex flex-col gap-8 sm:items-end">
+            <div className="w-full flex flex-col gap-4">
+                <div className="w-full flex flex-col gap-4 sm:flex-row">
+                    <div className="w-full flex flex-col gap-1">
+                        <Skeleton className="h-[14px] w-20 rounded-full" />
+
+                        <Skeleton className="h-11 w-full rounded-full" />
+                    </div>
+
+                    <div className="w-full flex flex-col gap-1">
+                        <Skeleton className="h-[14px] w-20 rounded-full" />
+
+                        <Skeleton className="h-11 w-full rounded-full" />
+                    </div>
+                </div>
+
+                <div className="w-full grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-[1fr_215px_1fr]">
+                    <div className="w-full flex flex-col gap-1">
+                        <Skeleton className="h-[14px] w-20 rounded-full" />
+
+                        <Skeleton className="h-11 w-full rounded-full" />
+                    </div>
+
+                    <div className="w-full flex flex-col gap-1">
+                        <Skeleton className="h-[14px] w-20 rounded-full" />
+
+                        <Skeleton className="h-11 w-full rounded-full" />
+                    </div>
+
+                    <div className="w-full flex flex-col gap-1">
+                        <Skeleton className="h-[14px] w-20 rounded-full" />
+
+                        <Skeleton className="h-11 w-full rounded-full" />
+                    </div>
+                </div>
+            </div>
+
+            <Button disabled size="lg" className="w-full sm:w-44">
+                Salvar
+            </Button>
+        </div>
     );
 };
