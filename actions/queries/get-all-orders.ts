@@ -1,3 +1,5 @@
+"use server";
+
 import { cookies } from "next/headers";
 
 // TODO: Adicionar tipo do retorno da função
@@ -6,7 +8,7 @@ export const getAllOrders = async () => {
     const token = cookieStore.get("token")?.value;
 
     if (!token) {
-        return null;
+        throw new Error("Token inválido");
     }
 
     const res = await fetch(`${process.env.API_URL}/User/pedidos`, {
@@ -21,7 +23,7 @@ export const getAllOrders = async () => {
     if (!res.ok) {
         console.log(data.message);
 
-        return null;
+        throw new Error(data.message);
     }
 
     return data;

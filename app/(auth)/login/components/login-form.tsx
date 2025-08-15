@@ -13,151 +13,155 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
+import { login } from "@/actions/mutations/auth/login";
 
-const formSchema = z.object({
-  email: z.string().trim().email({ message: "E-mail inválido" }).min(1, { message: "E-mail é obrigatório" }),
-  password: z.string().min(1, { message: "Senha é obrigatória" }),
+export const loginFormSchema = z.object({
+    email: z.string().trim().email({ message: "E-mail inválido" }).min(1, { message: "E-mail é obrigatório" }),
+    password: z.string().min(1, { message: "Senha é obrigatória" }),
 });
 
 export const LoginForm = () => {
-  return (
-    <Suspense>
-      <LoginFormSuspense />
-    </Suspense>
-  );
+    return (
+        <Suspense>
+            <LoginFormSuspense />
+        </Suspense>
+    );
 };
 
 const LoginFormSuspense = () => {
-  const [passwordView, setPasswordView] = useState("password");
-  const [isLoading, setIsLoading] = useState(false);
+    const [passwordView, setPasswordView] = useState("password");
+    const [isLoading, setIsLoading] = useState(false);
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirectUrl");
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectUrl = searchParams.get("redirectUrl");
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+    const form = useForm<z.infer<typeof loginFormSchema>>({
+        resolver: zodResolver(loginFormSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
+    const onSubmit = async (values: z.infer<typeof loginFormSchema>) => {
+        try {
+            setIsLoading(true);
 
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
+            const res = await login(values);
 
-      const data = await res.json();
+            console.log({ res });
 
-      if (!res.ok) {
-        if (res.status !== 401) {
-          toast.error("Ocorreu um erro, tente novamente mais tarde");
-        } else {
-          toast.error(data.message);
+            if (!res.success) {
+                toast.error(res.error);
+            } else {
+                if (redirectUrl) {
+                    router.push(redirectUrl);
+                } else {
+                    router.push(res.data === "ADMIN" ? "/dashboard/admin" : "/dashboard/perfil");
+                }
+            }
+        } catch (error) {
+            console.error(error);
+
+            toast.error("Ocorreu um erro!");
+        } finally {
+            setIsLoading(false);
         }
-      } else {
-        if (redirectUrl) {
-          router.push(redirectUrl);
-        } else {
-          router.push(data.userType === "ADMIN" ? "/dashboard/admin" : "/dashboard/perfil");
+    };
+
+    const handlePasswordView = () => {
+        if (passwordView === "password") {
+            setPasswordView("text");
+
+            return;
         }
-      }
-    } catch (error) {
-      console.error("Ocorreu um erro ao logar: ", error);
-      toast.error("Ocorreu um erro, tente novamente mais tarde");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
-  const handlePasswordView = () => {
-    if (passwordView === "password") {
-      setPasswordView("text");
+        if (passwordView === "text") {
+            setPasswordView("password");
 
-      return;
-    }
+            return;
+        }
+    };
 
-    if (passwordView === "text") {
-      setPasswordView("password");
+    return (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col gap-7 mb-6">
+                <div className="w-full flex flex-col gap-4">
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-sm font-medium">E-mail</FormLabel>
 
-      return;
-    }
-  };
+                                <FormControl>
+                                    <div
+                                        className={cn("input-container flex items-center gap-2", {
+                                            "input-error": !!form.formState.errors.email?.message,
+                                        })}
+                                    >
+                                        <MailIcon size={20} strokeWidth={1.5} className="text-primary" />
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col gap-7 mb-6">
-        <div className="w-full flex flex-col gap-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm font-medium">E-mail</FormLabel>
+                                        <Input className="input-reset" placeholder="Insira o seu e-mail" {...field} />
+                                    </div>
+                                </FormControl>
 
-                <FormControl>
-                  <div
-                    className={cn("input-container flex items-center gap-2", {
-                      "input-error": !!form.formState.errors.email?.message,
-                    })}
-                  >
-                    <MailIcon size={20} strokeWidth={1.5} className="text-primary" />
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
-                    <Input className="input-reset" placeholder="Insira o seu e-mail" {...field} />
-                  </div>
-                </FormControl>
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-sm font-medium">Senha</FormLabel>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                                <FormControl>
+                                    <div
+                                        className={cn("input-container flex items-center justify-between", {
+                                            "input-error": !!form.formState.errors.password?.message,
+                                        })}
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <LockIcon size={20} strokeWidth={1.5} className="text-primary" />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm font-medium">Senha</FormLabel>
+                                            <Input
+                                                className="input-reset"
+                                                type={passwordView}
+                                                placeholder="Insira a sua senha"
+                                                {...field}
+                                            />
+                                        </div>
 
-                <FormControl>
-                  <div
-                    className={cn("input-container flex items-center justify-between", {
-                      "input-error": !!form.formState.errors.password?.message,
-                    })}
-                  >
-                    <div className="flex items-center gap-2">
-                      <LockIcon size={20} strokeWidth={1.5} className="text-primary" />
+                                        <Button
+                                            type="button"
+                                            size="icon"
+                                            variant="input-ghost"
+                                            onClick={handlePasswordView}
+                                        >
+                                            {passwordView === "text" ? (
+                                                <EyeIcon size={20} strokeWidth={1.5} />
+                                            ) : (
+                                                <EyeOffIcon size={20} strokeWidth={1.5} />
+                                            )}
+                                        </Button>
+                                    </div>
+                                </FormControl>
 
-                      <Input className="input-reset" type={passwordView} placeholder="Insira a sua senha" {...field} />
-                    </div>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
 
-                    <Button type="button" size="icon" variant="input-ghost" onClick={handlePasswordView}>
-                      {passwordView === "text" ? (
-                        <EyeIcon size={20} strokeWidth={1.5} />
-                      ) : (
-                        <EyeOffIcon size={20} strokeWidth={1.5} />
-                      )}
-                    </Button>
-                  </div>
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <Button type="submit" size="lg" disabled={isLoading}>
-          Entrar
-          {isLoading && <Loader2Icon className="size-5 animate-spin !text-white" />}
-        </Button>
-      </form>
-    </Form>
-  );
+                <Button type="submit" size="lg" disabled={isLoading}>
+                    Entrar
+                    {isLoading && <Loader2Icon className="size-5 animate-spin !text-white" />}
+                </Button>
+            </form>
+        </Form>
+    );
 };

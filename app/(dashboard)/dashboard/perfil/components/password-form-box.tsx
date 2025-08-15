@@ -1,18 +1,20 @@
 "use client";
 
 import { z } from "zod";
+import { toast } from "sonner";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { EyeIcon, EyeOffIcon, Loader2Icon, LockIcon, SaveIcon, ShieldCheckIcon } from "lucide-react";
+
+import { changePassword } from "@/actions/mutations/user/change-password";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { EyeIcon, EyeOffIcon, Loader2Icon, LockIcon, SaveIcon, ShieldCheckIcon } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 
-const formSchema = z.object({
+export const changePasswordFormSchema = z.object({
     actualPassword: z.string().min(1, "Senha atual é obrigatória"),
     newPassword: z.string().min(1, "Nova Senha é obrigatória"),
     confirmNewPassword: z.string().min(1, "Confirmação da Nova Senha é obrigatória"),
@@ -24,8 +26,8 @@ export const PasswordFormBox = () => {
     const [newPasswordView, setNewPasswordView] = useState<"text" | "password">("password");
     const [confirmNewPasswordView, setConfirmNewPasswordView] = useState<"text" | "password">("password");
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof changePasswordFormSchema>>({
+        resolver: zodResolver(changePasswordFormSchema),
         defaultValues: {
             actualPassword: "",
             newPassword: "",
@@ -33,32 +35,22 @@ export const PasswordFormBox = () => {
         },
     });
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof changePasswordFormSchema>) => {
         setIsLoading(true);
 
         try {
-            const data = await fetch("/api/user/password/update", {
-                method: "PUT",
-                body: JSON.stringify(values),
-            });
+            const data = await changePassword(values);
 
-            const res = await data.json();
-
-            if (!data.ok) {
-                console.log(data.status);
-
-                if (data.status === 403) {
-                    toast.error(res.message);
-                } else {
-                    toast.error("Ocorreu um erro, tente novamente mais tarde");
-                }
+            if (!data.success) {
+                toast.error(data.error);
             } else {
-                toast.success(res.message);
+                toast.success("Senha alterada com sucesso!");
                 form.reset();
             }
         } catch (error) {
             console.error("Ocorreu um erro ao alterar a senha: ", error);
-            toast.error("Ocorreu um erro, tente novamente mais tarde");
+
+            toast.error("Ocorreu um erro, tente novamente mais tarde!");
         } finally {
             setIsLoading(false);
         }
@@ -134,6 +126,7 @@ export const PasswordFormBox = () => {
                                                     className="input-reset"
                                                     type={actualPasswordView}
                                                     placeholder="Insira a senha atual"
+                                                    autoComplete="off"
                                                     {...field}
                                                 />
                                             </div>
@@ -179,6 +172,7 @@ export const PasswordFormBox = () => {
                                                     className="input-reset"
                                                     type={newPasswordView}
                                                     placeholder="Insira a nova senha"
+                                                    autoComplete="off"
                                                     {...field}
                                                 />
                                             </div>
@@ -224,6 +218,7 @@ export const PasswordFormBox = () => {
                                                     className="input-reset"
                                                     type={confirmNewPasswordView}
                                                     placeholder="Confirme a nova senha"
+                                                    autoComplete="off"
                                                     {...field}
                                                 />
                                             </div>

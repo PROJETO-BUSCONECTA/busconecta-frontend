@@ -1,3 +1,5 @@
+"use server";
+
 import { User } from "@/types/user";
 import { cookies } from "next/headers";
 
@@ -6,7 +8,7 @@ export const getProfile = async (): Promise<User | null> => {
     const token = cookieStore.get("token")?.value;
 
     if (!token) {
-        return null;
+        throw new Error("Token inválido");
     }
 
     const res = await fetch(`${process.env.API_URL}/User/perfil`, {
@@ -20,7 +22,9 @@ export const getProfile = async (): Promise<User | null> => {
     const data = await res.json();
 
     if (!res.ok) {
-        return null;
+        console.log(data.message);
+
+        throw new Error(data.message);
     }
 
     return data;

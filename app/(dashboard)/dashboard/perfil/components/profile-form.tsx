@@ -12,8 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import { updateUser } from "@/actions/mutations/user/update-user";
 
-export const formSchema = z.object({
+export const updateProfileFormSchema = z.object({
     id: z.string().min(1, "ID é obrigatório"),
     name: z.string().min(1, "Nome é obrigatório"),
     email: z.string().min(1, "E-mail é obrigatório").email("E-mail inválido"),
@@ -31,8 +32,8 @@ interface Props {
 export const ProfileForm = ({ userData }: Props) => {
     const [isLoading, setIsLoading] = useState(false);
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof updateProfileFormSchema>>({
+        resolver: zodResolver(updateProfileFormSchema),
         defaultValues: {
             id: userData?.id ?? "",
             name: userData?.nome ?? "",
@@ -43,29 +44,21 @@ export const ProfileForm = ({ userData }: Props) => {
         },
     });
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof updateProfileFormSchema>) => {
         setIsLoading(true);
 
         try {
-            const data = await fetch("/api/user/profile/update", {
-                method: "PUT",
-                body: JSON.stringify(values),
-            });
+            const data = await updateUser(values);
 
-            const res = await data.json();
-
-            if (!data.ok) {
-                if (data.status !== 500) {
-                    toast.error("Ocorreu um erro, tente novamente mais tarde");
-                } else {
-                    toast.error(res.message);
-                }
+            if (!data.success) {
+                toast.error(data.error);
             } else {
-                toast.success(res.message);
+                toast.success("Dados atualizados com sucesso!");
             }
         } catch (error) {
             console.error("Ocorreu um erro ao alterar os dados do usuário: ", error);
-            toast.error("Ocorreu um erro, tente novamente mais tarde");
+
+            toast.error("Ocorreu um erro, tente novamente mais tarde!");
         } finally {
             setIsLoading(false);
         }
