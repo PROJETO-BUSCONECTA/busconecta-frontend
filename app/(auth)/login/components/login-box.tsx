@@ -6,58 +6,49 @@ import { LoginForm } from "./login-form";
 import { Button } from "@/components/ui/button";
 
 export const LoginBox = () => {
-  return (
-    <section className="w-full flex items-center justify-center -mt-[72px] px-6">
-      <div className="w-full bg-white max-w-md rounded-3xl p-10 shadow-lg">
-        <h2 className="text-3xl font-semibold mb-1">Bem-vindo de volta!</h2>
+    return (
+        <section className="w-full flex-1 flex items-center justify-center -mt-[72px] px-6">
+            <div className="w-full bg-white max-w-md rounded-3xl p-10 shadow-lg">
+                <h2 className="text-3xl font-semibold mb-1">Bem-vindo de volta!</h2>
 
-        <p className="text-base text-foreground/70 mb-9">
-          Acesse sua conta para gerenciar suas reservas com facilidade.
-        </p>
+                <p className="text-base text-foreground/70 mb-9">
+                    Acesse sua conta para gerenciar suas reservas com facilidade.
+                </p>
 
-        <div className="w-full flex flex-col gap-4 mb-6">
-          <Button size="lg" variant="outline">
-            <FcGoogle size={24} />
+                <div className="w-full flex flex-col gap-4 mb-6">
+                    <Button size="lg" variant="outline">
+                        <FcGoogle size={24} />
 
-            <span className="hidden sm:block text-base">
-              Continuar com o Google
-            </span>
-          </Button>
+                        <span className="hidden sm:block text-base">Continuar com o Google</span>
+                    </Button>
 
-          <Button size="lg" variant="outline">
-            <FaApple size={24} color="#000000" />
+                    <Button size="lg" variant="outline">
+                        <FaApple size={24} color="#000000" />
 
-            <span className="hidden sm:block text-base">
-              Continuar com a Apple
-            </span>
-          </Button>
-        </div>
+                        <span className="hidden sm:block text-base">Continuar com a Apple</span>
+                    </Button>
+                </div>
 
-        <div className="w-full flex items-center gap-4 mb-6">
-          <div className="flex-1 h-px bg-foreground/30" />
+                <div className="w-full flex items-center gap-4 mb-6">
+                    <div className="flex-1 h-px bg-foreground/30" />
 
-          <span className="text-sm font-medium text-foreground/30">
-            Ou então
-          </span>
+                    <span className="text-sm font-medium text-foreground/30">Ou então</span>
 
-          <div className="flex-1 h-px bg-foreground/30" />
-        </div>
+                    <div className="flex-1 h-px bg-foreground/30" />
+                </div>
 
-        <LoginForm />
+                <LoginForm />
 
-        <div className="w-full flex items-center justify-between gap-4">
-          <span className="text-base font-medium text-foreground/70">
-            Não possui conta?
-          </span>
+                <div className="w-full h-px bg-black/10 mb-6" />
 
-          <Link
-            href="/criar-conta"
-            className="text-primary text-sm font-medium hover:underline"
-          >
-            Criar conta
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
+                <div className="w-full flex items-center justify-between gap-4">
+                    <span className="text-base font-medium text-foreground/70">Não possui conta?</span>
+
+                    <Link href="/criar-conta" className="text-primary text-sm font-medium hover:underline">
+                        Criar conta
+                    </Link>
+                </div>
+            </div>
+        </section>
+    );
 };

@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { login } from "@/actions/mutations/auth/login";
+import Link from "next/link";
 
 export const loginFormSchema = z.object({
     email: z.string().trim().email({ message: "E-mail inválido" }).min(1, { message: "E-mail é obrigatório" }),
@@ -117,7 +118,16 @@ const LoginFormSuspense = () => {
                         name="password"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-sm font-medium">Senha</FormLabel>
+                                <div className="w-full flex items-center justify-between">
+                                    <FormLabel className="text-sm font-medium">Senha</FormLabel>
+
+                                    <Link
+                                        href="/esqueceu-a-senha"
+                                        className="text-[12px] font-medium text-primary hover:underline"
+                                    >
+                                        Esqueceu a senha?
+                                    </Link>
+                                </div>
 
                                 <FormControl>
                                     <div

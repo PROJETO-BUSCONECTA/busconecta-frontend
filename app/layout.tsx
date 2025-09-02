@@ -6,27 +6,27 @@ import { Toaster } from "sonner";
 import { cn } from "@/lib/utils";
 
 const poppins = Poppins({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
+    weight: ["300", "400", "500", "600", "700"],
+    subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Busconecta",
-  description:
-    "Compre suas passagens de ônibus de forma rápida e segura com a Busconecta. Compare preços, horários e rotas de diversas viações em um só lugar.",
+    title: "Busconecta",
+    description:
+        "Compre suas passagens de ônibus de forma rápida e segura com a Busconecta. Compare preços, horários e rotas de diversas viações em um só lugar.",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="pt-BR">
-      <body className={cn("antialiased bg-background", poppins.className)}>
-        <Toaster />
-        {children}
-      </body>
-    </html>
-  );
+    return (
+        <html lang="pt-BR">
+            <body className={cn("antialiased bg-background", poppins.className)}>
+                <Toaster />
+                {children}
+            </body>
+        </html>
+    );
 }

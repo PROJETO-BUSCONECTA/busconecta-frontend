@@ -2,23 +2,23 @@ import { Header } from "@/components/global/header";
 import { Footer } from "@/components/global/footer";
 
 interface AuthLayoutProps {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
-  return (
-    <>
-      <Header
-        wrapperClassName="bg-primary h-60"
-        containerClassName="absolute"
-        boxClassName="bg-transparent shadow-none rounded-none"
-      />
+    return (
+        <div className="w-full min-h-screen flex flex-col">
+            <Header
+                wrapperClassName="bg-primary h-60"
+                containerClassName="absolute"
+                boxClassName="bg-transparent shadow-none rounded-none"
+            />
 
-      {children}
+            {children}
 
-      <Footer />
-    </>
-  );
+            <Footer />
+        </div>
+    );
 };
 
 export default AuthLayout;
