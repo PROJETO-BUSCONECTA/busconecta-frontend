@@ -21,6 +21,8 @@ export const register = async ({
 
         const data = await res.json();
 
+        console.log({ res });
+
         if (!res.ok) {
             throw new Error("Ocorreu um erro, tente novamente mais tarde!");
         }
